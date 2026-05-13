@@ -1,0 +1,35 @@
+# Lambda ZIP
+
+lambda.zip
+
+
+#Terraform 
+
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+
+
+# Python dependency artifacts
+
+bin/
+requests/
+certifi/
+charset_normalizer/
+idna/
+urllib3/
+
+requests-*.dist-info/
+certifi-*.dist-info/
+charset_normalizer-*.dist-info/
+idna-*.dist-info/
+urllib3-*.dist-info/
+
+# Python build artifacts
+*.so
+__pycache__/
+*.pyc
+
+.vscode/
