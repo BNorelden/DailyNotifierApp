@@ -1,6 +1,6 @@
 variable "ses_email_from" {
-  default = "bilal_norelden@hotmail.com"
+  default = "b.norelden@gmail.com"
 }
 variable "ses_email_to" {
-  default = "bilal_norelden@hotmail.com"
+  default = "b.norelden@gmail.com"
 }
