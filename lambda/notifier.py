@@ -84,7 +84,7 @@ def send_email(subject, body_html):
 # -----------------------------
 
 def lambda_handler(event, context):
-    mode = event.get("time", "manual")
+    mode = event.get("time", "morning")
 
     quote_text, quote_author = get_quote()
     weather = get_weather()
