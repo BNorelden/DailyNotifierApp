@@ -11,13 +11,13 @@ resource "aws_lambda_function" "daily_notifier" {
     variables = {
       LOG_TABLE = aws_dynamodb_table.daily_notifier_logs.name
 
+      NEWS_API_KEY = var.news_api_key
+
       SES_EMAIL_FROM = var.ses_email_from
       SES_EMAIL_TO = var.ses_email_to
 
-        QUOTE_API_URL = "https://zenquotes.io/api/random"
-        # QUOTE_API_URL = "https://dummyjson.com/quotes/random"
-
-    WEATHER_API_URL  = "https://api.open-meteo.com/v1/forecast?latitude=37.77&longitude=-122.42&daily=temperature_2m_max&daily=windspeed_10m_max&timezone=America/Los_Angeles&daily=temperature_2m_min&temperature_unit=fahrenheit"
+      QUOTE_API_URL = "https://zenquotes.io/api/random"
+      WEATHER_API_URL  = "https://api.open-meteo.com/v1/forecast?latitude=40.82&longitude=-74.00&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph"
     
     }
   }

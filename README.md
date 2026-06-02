@@ -1,13 +1,19 @@
-DailyNotifierApp — Automated Morning & Evening Email Digest
+DailyNotifierApp — Automated Morning & Evening Email Digest  
 A serverless AWS application that sends automated morning and evening digest emails containing:
 
 A motivational quote
 
 Local weather
 
-A clean HTML template
+Top news headlines
 
-Logged entries in DynamoDB
+A daily fact
+
+NASA Astronomy Picture of the Day
+
+A clean HTML email template
+
+Logged entries in DynamoDB for every run
 
 All infrastructure is deployed using Terraform, and all automation is handled by AWS Lambda + EventBridge + SES + DynamoDB.
 
@@ -16,7 +22,7 @@ Scheduled emails (8 AM & 5 PM) via EventBridge
 
 HTML email template rendered by Lambda
 
-Weather + Quote APIs
+Weather, Quote, Fact, News, and NASA APOD APIs
 
 DynamoDB logging for every run
 
@@ -25,6 +31,14 @@ SES email delivery
 Terraform IaC for full reproducibility
 
 Manual test mode for debugging
+
+### Integrated APIs
+
+- **[Weather (Open-Meteo)]**
+- **[Quotes (ZenQuotes)]**
+- **[Facts (UselessFacts)]**
+- **[News (TheNewsAPI)]**
+- **[NASA Astronomy Picture of the Day]**
 
 🧱 Architecture Overview
 EventBridge triggers Lambda twice daily
@@ -51,6 +65,10 @@ All screenshots are stored in /screenshots.
 ### **Manual Test Email**
 
 <img src="./screenshots/ManualTest.png" width="958" />
+
+## Latest Digest Screenshot
+
+<img src="./screenshots/evening_latest.png" width="958" />
 
 ### **DynamoDB Entry**
 

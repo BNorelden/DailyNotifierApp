@@ -38,6 +38,13 @@
         color: #777;
         text-align: center;
       }
+      .news-item {
+        margin-bottom: 12px;
+      }
+      .news-item a {
+        color: #0066cc;
+        text-decoration: none;
+      }
     </style>
   </head>
 
@@ -45,6 +52,7 @@
     <div class="container">
       <h1>🌤️ Daily Morning Digest</h1>
 
+      <!-- Quote -->
       <div class="section-title">📝 Quote of the Day</div>
       <div class="quote">
         "{{quote}}"
@@ -52,8 +60,25 @@
         — <strong>{{author}}</strong>
       </div>
 
+      <!-- Weather -->
       <div class="section-title">🌡️ Weather</div>
       <div>{{weather}}</div>
+
+      <!-- News -->
+      <div class="section-title">📰 Top News</div>
+      {{news_items}}
+
+      <!-- Random Fact -->
+      <div class="section-title">🧠 Daily Fact</div>
+      <div>{{fact_text}}</div>
+
+      <!-- NASA APOD -->
+      <div class="section-title">🚀 NASA Astronomy Picture of the Day</div>
+      <div><strong>{{nasa_title}}</strong></div>
+      <div>{{nasa_explanation}}</div>
+      <div>
+        <a href="{{nasa_url}}" target="_blank">View Image</a>
+      </div>
 
       <div class="footer">Sent automatically by your DailyNotifierApp.</div>
     </div>
