@@ -30,7 +30,7 @@ table = dynamodb.Table(os.environ["LOG_TABLE"])
 # Helpers
 # -----------------------------
 
-def fetch_with_retry(url, timeout, attempts=3):
+def fetch_with_retry(url, timeout, attempts=2):
     for i in range(attempts):
         try:
             return requests.get(url, timeout=timeout).json()
@@ -88,7 +88,7 @@ def get_fact():
 
 def get_nasa():
     try:
-        data = fetch_with_retry(NASA_API_URL, timeout=10)
+        data = fetch_with_retry(NASA_API_URL, timeout=6)
         return (
             data.get("title", "NASA APOD"),
             data.get("explanation", "No explanation available."),
@@ -98,7 +98,7 @@ def get_nasa():
         return ("NASA APOD", f"Could not fetch NASA APOD ({e})", "#")
 
 
-def log_to_dynamodb(mode, quote, weather):
+def log_to_dynamodb(mode, quote,fact_text, weather):
     timestamp = datetime.utcnow().isoformat()
 
     table.put_item(
@@ -106,15 +106,17 @@ def log_to_dynamodb(mode, quote, weather):
             "id": timestamp,
             "mode": mode,
             "quote": quote,
+            "fact": fact_text,
             "weather": weather,
             "timestamp": timestamp
         }
     )
 
 
-def load_template(quote, author, weather, news_html, fact_text, nasa_title, nasa_explanation, nasa_url):
+def load_template(digest_title, quote, author, weather, news_html, fact_text, nasa_title, nasa_explanation, nasa_url):
     with open("email_template.html", "r") as f:
         html = f.read()
+        html = html.replace("{{digest_title}}", digest_title)
         html = html.replace("{{quote}}", quote)
         html = html.replace("{{author}}", author)
         html = html.replace("{{weather}}", weather)
@@ -148,6 +150,8 @@ def send_email(subject, body_html):
 def lambda_handler(event, context):
     mode = event.get("time") if isinstance(event, dict) else "morning"
 
+    digest_title = "Daily Morning Digest" if mode == "morning" else "Daily Evening Digest"
+
     quote_text, quote_author = get_quote()
     weather = get_weather()
     news_html = get_news()
@@ -164,6 +168,7 @@ def lambda_handler(event, context):
         subject = f"Manual Test — {now}"
 
     body_html = load_template(
+        digest_title,
         quote_text,
         quote_author,
         weather,
@@ -175,6 +180,6 @@ def lambda_handler(event, context):
     )
 
     send_email(subject, body_html)
-    log_to_dynamodb(mode, f"{quote_text} - {quote_author}", weather)
+    log_to_dynamodb(mode, f"{quote_text} - {quote_author}", fact_text, weather)
 
     return {"status": "ok", "mode": mode}

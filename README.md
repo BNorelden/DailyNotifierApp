@@ -1,4 +1,4 @@
-DailyNotifierApp — Automated Morning & Evening Email Digest  
+DailyNotifierApp — Automated Morning & Evening Email Digest
 A serverless AWS application that sends automated morning and evening digest emails containing:
 
 A motivational quote
@@ -11,7 +11,7 @@ A daily fact
 
 NASA Astronomy Picture of the Day
 
-A clean HTML email template
+A clean HTML email template (dynamic morning/evening title)
 
 Logged entries in DynamoDB for every run
 
@@ -20,11 +20,13 @@ All infrastructure is deployed using Terraform, and all automation is handled by
 🚀 Features
 Scheduled emails (8 AM & 5 PM) via EventBridge
 
-HTML email template rendered by Lambda
+Dynamic digest title: Daily Morning Digest / Daily Evening Digest
 
-Weather, Quote, Fact, News, and NASA APOD APIs
+Integrated APIs: Weather, Quotes, Facts, News, NASA APOD
 
-DynamoDB logging for every run
+Clean HTML email template rendered by Lambda
+
+DynamoDB logging for every run (mode, quote, fact, weather, timestamp)
 
 SES email delivery
 
@@ -32,51 +34,68 @@ Terraform IaC for full reproducibility
 
 Manual test mode for debugging
 
-### Integrated APIs
+🌐 Integrated APIs
+Weather — Open‑Meteo
 
-- **[Weather (Open-Meteo)]**
-- **[Quotes (ZenQuotes)]**
-- **[Facts (UselessFacts)]**
-- **[News (TheNewsAPI)]**
-- **[NASA Astronomy Picture of the Day]**
+Quotes — ZenQuotes
+
+Facts — UselessFacts API
+
+News — TheNewsAPI
+
+NASA APOD — NASA Astronomy Picture of the Day
 
 🧱 Architecture Overview
 EventBridge triggers Lambda twice daily
 
-Lambda fetches weather + quote, renders HTML, sends via SES
+Lambda fetches:
 
-DynamoDB stores each run (timestamp, mode, quote, weather)
+Quote
 
-SES handles outbound email
+Weather
 
-Terraform provisions all resources
+News
+
+Fact
+
+NASA APOD
+
+Lambda renders the HTML template and sends via SES
+
+DynamoDB stores metadata for each run:
+
+timestamp
+
+mode (morning/evening/manual)
+
+quote
+
+fact
+
+weather
+
+Terraform provisions all AWS resources
 
 📸 Screenshots
 All screenshots are stored in /screenshots.
 
-### **Morning Email**
+Morning Email
+/screenshots/MorningEmail.png
 
-<img src="./screenshots/MorningEmail.png" width="958" />
+Evening Email
+/screenshots/EveningEmail.png
 
-### **Evening Email**
+Manual Test Email
+/screenshots/ManualTest.png
 
-<img src="./screenshots/EveningEmail.png" width="958" />
+Latest Digest Screenshot
+/screenshots/evening_latest.png
 
-### **Manual Test Email**
+DynamoDB Entry
+/screenshots/DynamoDB.png
 
-<img src="./screenshots/ManualTest.png" width="958" />
-
-## Latest Digest Screenshot
-
-<img src="./screenshots/evening_latest.png" width="958" />
-
-### **DynamoDB Entry**
-
-<img src="./screenshots/DynamoDB.png" width="958" />
-
-### **EventBridge Rules**
-
-<img src="./screenshots/EventBridge.png" width="958" />
+EventBridge Rules
+/screenshots/EventBridge.png
 
 🛠️ Tech Stack
 AWS Lambda (Python 3.12)
@@ -92,7 +111,7 @@ Terraform
 Python Requests
 
 📦 Deployment (Terraform)
-Update variables in variables.tf
+Update variables in variables.tf.
 
 Zip Lambda code:
 
@@ -104,15 +123,17 @@ Code
 terraform init
 terraform apply
 🧪 Testing
-Trigger Lambda manually with:
+Trigger Lambda manually:
+
+Manual test
 
 json
 { "time": "manual" }
-Morning simulation:
+Morning simulation
 
 json
 { "time": "morning" }
-Evening simulation:
+Evening simulation
 
 json
 { "time": "evening" }
@@ -125,20 +146,22 @@ mode — morning / evening / manual
 
 quote
 
+fact
+
 weather
 
 timestamp
 
 🔧 Future Enhancements
-add retry logic
+✔️ Add retry logic
 
-exit SES sandbox
+✔️ Add additional APIs (news, facts, NASA APOD, weather)
 
-add DynamoDB TTL expiration
+⬜ Exit SES sandbox
 
-add cleanup Lambda
+⬜ Add DynamoDB TTL expiration
 
-Additional APIs (news, reminders, etc.)
+⬜ Add cleanup Lambda
 
 📄 License
 MIT License.
